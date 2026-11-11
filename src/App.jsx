@@ -14,6 +14,7 @@ const App = () => {
   const focus = useRef(null);
 
   useEffect(() => {
+    window.addEventListener('load',()=>focus.current.focus())
     const handleKeyDown = (e) => {
       const key = e.key.toUpperCase();
 
@@ -35,12 +36,15 @@ const App = () => {
 
       if (key === "ENTER") {
         if (chance === 6) {
-          alert("Game Over");
+          alert("Game End");
           return;
         }
         if (index === 5) {
           setIsEnterPressed(true);
-
+          if (finishGame(tryies[chance])) {
+            alert("You Win");
+            return;
+          }
           setChance((pre) => pre + 1);
           setIndex((pre) => pre - 5);
           return;
@@ -67,14 +71,12 @@ const App = () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [index, chance]);
-  useEffect(() => {
-    window.addEventListener("load", () => focus.focus());
-  });
+
   return (
     <>
-      <h1 className="border ">
+      <h1 className=" ">
         {" "}
-        Wordle Game <input type="hidden" ref={focus} />{" "}
+        Wordle Game <input type="hidden" ref={focus} />
       </h1>
       <section className="grid grid-cols-5  gap-1 mx-auto ">
         {tryies.map((element, rowIndex) =>
@@ -105,6 +107,11 @@ const Square = ({ value, status, finish }) => {
     </div>
   );
 };
+
+function finishGame(word) {
+  const guessedWord = word.join("").replaceAll(",", "").toUpperCase();
+  return guessedWord === wordle;
+}
 
 function checkCharStatus(key, index) {
   const found = wordle.includes(key);
