@@ -76,7 +76,7 @@ const App = () => {
     <>
       <h1 className=" ">
         {" "}
-        Wordle Game <input type="hidden" ref={focus} />
+        Wordle Game <input type="text" className="absolute w-2 overflow-hidden opacity-0" ref={focus} />
       </h1>
       <section className="grid grid-cols-5  gap-1 mx-auto ">
         {tryies.map((element, rowIndex) =>
