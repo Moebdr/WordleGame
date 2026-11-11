@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
-const wordle = "JACKS";
+const wordle = "JMROK";
 const App = () => {
   const [tryies, setTryes] = useState(
     Array.from({ length: 6 }, () => Array(5).fill(null)),
@@ -11,6 +11,7 @@ const App = () => {
     Array.from({ length: 6 }, () => Array(5).fill("")),
   );
   const [isEnterPressed, setIsEnterPressed] = useState(false);
+  const focus = useRef(null);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -39,7 +40,7 @@ const App = () => {
         }
         if (index === 5) {
           setIsEnterPressed(true);
-          alert("" + chance + " " + index + " " + key);
+
           setChance((pre) => pre + 1);
           setIndex((pre) => pre - 5);
           return;
@@ -66,9 +67,15 @@ const App = () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [index, chance]);
+  useEffect(() => {
+    window.addEventListener("load", () => focus.focus());
+  });
   return (
     <>
-      <h1 className=" "> Wordle Game</h1>
+      <h1 className="border ">
+        {" "}
+        Wordle Game <input type="hidden" ref={focus} />{" "}
+      </h1>
       <section className="grid grid-cols-5  gap-1 mx-auto ">
         {tryies.map((element, rowIndex) =>
           element.map((ch, colIndex) => (
