@@ -12,9 +12,9 @@ const App = () => {
   );
   const [isEnterPressed, setIsEnterPressed] = useState(false);
   const focus = useRef(null);
+  window.addEventListener("load", () => focus.current.focus());
 
   useEffect(() => {
-    window.addEventListener('load',()=>focus.current.focus())
     const handleKeyDown = (e) => {
       const key = e.key.toUpperCase();
 
@@ -76,7 +76,12 @@ const App = () => {
     <>
       <h1 className=" ">
         {" "}
-        Wordle Game <input type="text" className="absolute w-2 overflow-hidden opacity-0" ref={focus} />
+        Wordle Game{" "}
+        <input
+          type="text"
+          className="absolute w-2 overflow-hidden opacity-0"
+          ref={focus}
+        />
       </h1>
       <section className="grid grid-cols-5  gap-1 mx-auto ">
         {tryies.map((element, rowIndex) =>
@@ -97,6 +102,7 @@ const App = () => {
 const Square = ({ value, status, finish }) => {
   return (
     <div
+      ref={focus}
       className={`w-15 h-15 ${finish ? status : ""} ${value && finish ? "transition  " : ""} `}
     >
       <button
@@ -118,9 +124,9 @@ function checkCharStatus(key, index) {
   if (found) {
     const position = wordle.indexOf(key) === index;
     if (position) {
-      return "bg-green-500 ";
+      return "bg-green-600 ";
     }
-    return "bg-yellow-500 ";
+    return "bg-yellow-600 ";
   }
   return "bg-gray-600";
 }
