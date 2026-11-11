@@ -1,0 +1,7 @@
+@import "tailwindcss";
+.active{
+transform:rotateY(360deg);
+transition: transform 1s ease-in-out ;
+cursor: pointer;
+}
+
