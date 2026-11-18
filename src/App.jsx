@@ -3,7 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import WordleList from "./words";
 import "./App.css";
 const WordList = WordleList();
-const wordle = WordList[20].toUpperCase();
+const wordle = WordList[66].toUpperCase();
 const App = () => {
   const [tryies, setTryes] = useState(
     Array.from({ length: 6 }, () => Array(5).fill(null)),
@@ -28,7 +28,12 @@ const App = () => {
     const handleKeyDown = (e) => {
       const key = e.key.toUpperCase();
 
-      if (!/^[a-zA-Z]$/.test(key) && key !== "BACKSPACE" && key !== "ENTER") {
+      if (
+        !/^[a-zA-Z]$/.test(key) &&
+        key !== "BACKSPACE" &&
+        key !== "ENTER" &&
+        index !== 5
+      ) {
         notify("Only Letters ");
         return;
       }
@@ -56,13 +61,12 @@ const App = () => {
             tem[chance] = th.map((item) => null && item);
             setTryes(tem);
             setIndex(0);
-            setChance((pre) => pre);
-            notify("Word not in list " + chance);
+            notify("Word not in list " + "");
             return;
           }
           setIsEnterPressed(true);
           if (finishGame(tryies[chance])) {
-            setTimeout(() => notify("You Win", "success"), 400);
+            notify("You Win", "success");
             return;
           }
           setChance((pre) => pre + 1);
@@ -77,7 +81,7 @@ const App = () => {
         return;
       }
       const status = [...charStatus];
-      status[chance][index] = checkCharStatus(key, index);
+      status[chance][index] = checkCharStatus(key, index, tryies[chance]);
       setCharStatus(status);
       setIsEnterPressed(false);
       const tem = [...tryies];
@@ -134,19 +138,21 @@ function finishGame(word) {
 
 function isInList(word) {
   const guessedWord = word.join("").replaceAll(",", "").toUpperCase();
-  console.log(WordList);
-  console.log(WordList.includes(guessedWord));
-  console.log(guessedWord);
   return WordList.includes(guessedWord);
 }
 
-function checkCharStatus(key, index) {
+function checkCharStatus(key, index, prechar) {
   const found = wordle.includes(key);
   const indexes = [];
   if (found) {
     for (let i = 0; i < wordle.length; i++) {
       if (wordle[i] === key) {
         indexes.push(i);
+      }
+    }
+    if (indexes.length < 2) {
+      if (prechar.includes(key)) {
+        return "bg-gray-600";
       }
     }
     if (indexes.includes(index)) {

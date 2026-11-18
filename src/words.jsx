@@ -7,7 +7,7 @@ const WordleList = ()=>{
   order
   whose
   would
-  fleet
+  flee0t
   noise
   still
   lease
