@@ -28,12 +28,7 @@ const App = () => {
     const handleKeyDown = (e) => {
       const key = e.key.toUpperCase();
 
-      if (
-        !/^[a-zA-Z]$/.test(key) &&
-        key !== "BACKSPACE" &&
-        key !== "ENTER" &&
-        index !== 5
-      ) {
+      if (!/^[a-zA-Z]$/.test(key) && key !== "BACKSPACE" && key !== "ENTER" && index !== 5) {
         notify("Only Letters ");
         return;
       }
@@ -61,12 +56,12 @@ const App = () => {
             tem[chance] = th.map((item) => null && item);
             setTryes(tem);
             setIndex(0);
-            notify("Word not in list " + "");
+            notify("Word not in list " + '');
             return;
           }
           setIsEnterPressed(true);
           if (finishGame(tryies[chance])) {
-            notify("You Win", "success");
+             notify("You Win", "success")
             return;
           }
           setChance((pre) => pre + 1);
@@ -81,7 +76,7 @@ const App = () => {
         return;
       }
       const status = [...charStatus];
-      status[chance][index] = checkCharStatus(key, index, tryies[chance]);
+      status[chance][index] = checkCharStatus(key, index,tryies[chance]);
       setCharStatus(status);
       setIsEnterPressed(false);
       const tem = [...tryies];
@@ -141,7 +136,7 @@ function isInList(word) {
   return WordList.includes(guessedWord);
 }
 
-function checkCharStatus(key, index, prechar) {
+function checkCharStatus(key, index,prechar) {
   const found = wordle.includes(key);
   const indexes = [];
   if (found) {
@@ -150,8 +145,8 @@ function checkCharStatus(key, index, prechar) {
         indexes.push(i);
       }
     }
-    if (indexes.length < 2) {
-      if (prechar.includes(key)) {
+    if(indexes.length < 2){
+      if(prechar.includes(key)){
         return "bg-gray-600";
       }
     }
